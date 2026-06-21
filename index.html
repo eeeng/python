@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MeetPick</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- 브라우저에서 Python 코드를 실행하기 위한 Brython -->
+  <script src="https://cdn.jsdelivr.net/npm/brython@3.13.0/brython.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/brython@3.13.0/brython_stdlib.js"></script>
+</head>
+
+<body onload="brython()">
+  <div class="bg-orb orb-a"></div>
+  <div class="bg-orb orb-b"></div>
+  <div class="bg-grid"></div>
+
+  <div class="app">
+    <header class="topbar">
+      <button class="brand" id="goHomeTop">
+        <span class="brand-logo">M</span>
+        <span>
+          <strong>MeetPick</strong>
+          <small id="statusText">불러오는 중...</small>
+        </span>
+      </button>
+
+      <nav>
+        <button id="homeBtn">홈</button>
+        <button id="resetBtn">초기화</button>
+      </nav>
+    </header>
+
+    <main>
+      <section id="screen-home" class="screen active">
+        <div class="hero-layout">
+          <article class="hero-copy">
+            <span class="badge">SCHEDULE MATCHER</span>
+            <h1>모두가 가능한<br />약속 시간을 찾기</h1>
+            <p>
+              약속 이름을 정하고, 참여자별 가능한 시간을 입력하면
+              겹치는 날짜와 추천 시간을 계산합니다.
+            </p>
+
+            <div class="flow">
+              <div>
+                <strong>01</strong>
+                <span>방 만들기</span>
+              </div>
+              <div>
+                <strong>02</strong>
+                <span>일정 입력</span>
+              </div>
+              <div>
+                <strong>03</strong>
+                <span>시간 추천</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card create-card">
+            <div class="icon-box">📅</div>
+            <h2>일정 조율 방 만들기</h2>
+            <p>약속 이름을 입력하고 시작하세요.</p>
+
+            <label for="roomTitle">약속 이름</label>
+            <input id="roomTitle" type="text" placeholder="예: 팀플 회의, 밴드 합주, 스터디" />
+            <button class="primary-btn" id="createRoomBtn">방 만들기</button>
+
+            <p id="homeMessage" class="form-message"></p>
+          </article>
+        </div>
+      </section>
+
+      <section id="screen-room" class="screen">
+        <article class="card room-card">
+          <div>
+            <span class="badge">ROOM</span>
+            <h1 id="roomNameText">약속 이름</h1>
+            <p id="roomIdText" class="muted">방 ID</p>
+            <p id="roomCreatedText" class="muted">생성 시간</p>
+          </div>
+
+          <div class="share-box">
+            <label for="shareLink">공유 링크</label>
+            <div class="copy-row">
+              <input id="shareLink" type="text" readonly />
+              <button id="copyBtn">복사</button>
+            </div>
+            <small>같은 브라우저에서 다시 열면 저장된 방을 불러올 수 있습니다.</small>
+          </div>
+        </article>
+
+        <div class="step-grid">
+          <button class="card step-card" id="goAddBtn">
+            <span>01</span>
+            <h2>참여자 일정 등록</h2>
+            <p>이름과 가능한 날짜/시간을 입력합니다.</p>
+            <strong>등록하러 가기 →</strong>
+          </button>
+
+          <button class="card step-card" id="goParticipantsBtn">
+            <span>02</span>
+            <h2>참여 현황 확인</h2>
+            <p>누가 어떤 시간을 선택했는지 확인합니다.</p>
+            <strong>현황 보기 →</strong>
+          </button>
+
+          <button class="card step-card" id="goResultBtn">
+            <span>03</span>
+            <h2>결과 분석</h2>
+            <p>겹치는 날짜와 추천 시간을 확인합니다.</p>
+            <strong>분석하기 →</strong>
+          </button>
+        </div>
+
+        <div class="stats">
+          <article class="card stat-card">
+            <strong id="participantCount">0</strong>
+            <p>참여 인원</p>
+          </article>
+          <article class="card stat-card">
+            <strong id="slotCount">0</strong>
+            <p>등록된 시간</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="screen-add" class="screen">
+        <article class="card form-card">
+          <button class="back-btn" id="backFromAddBtn">← 방 대기실로 돌아가기</button>
+          <span class="badge">STEP 01</span>
+          <h1>참여자 일정 등록</h1>
+          <p class="muted">가능한 날짜와 시간을 입력하세요.</p>
+
+          <label for="participantName">참여자 이름</label>
+          <input id="participantName" type="text" placeholder="예: 김강민" />
+
+          <label for="scheduleInput">가능한 일정</label>
+          <textarea
+            id="scheduleInput"
+            rows="6"
+            placeholder="예: 2026-05-15 13시 2026-05-15 14시 2026-05-16 15시"
+          ></textarea>
+
+          <div class="tip-box">
+            <strong>입력 예시</strong>
+            <code>2026-05-15 13시 2026-05-15 14시 2026-05-16 15시</code>
+            <p>날짜와 시간을 한 쌍으로 입력해야 합니다.</p>
+          </div>
+
+          <button class="primary-btn" id="saveParticipantBtn">일정 저장하기</button>
+          <p id="formMessage" class="form-message"></p>
+        </article>
+      </section>
+
+      <section id="screen-participants" class="screen">
+        <div class="page-title">
+          <button class="back-btn" id="backFromParticipantsBtn">← 방 대기실로 돌아가기</button>
+          <span class="badge">STEP 02</span>
+          <h1>참여 현황</h1>
+          <p class="muted">등록된 참여자와 선택한 일정을 확인합니다.</p>
+        </div>
+
+        <div id="participantsList" class="participant-grid"></div>
+      </section>
+
+      <section id="screen-result" class="screen">
+        <article class="card result-card">
+          <button class="back-btn" id="backFromResultBtn">← 방 대기실로 돌아가기</button>
+          <span class="badge">STEP 03</span>
+          <h1>일정 조율 결과</h1>
+          <p class="muted">참여자들의 일정을 바탕으로 추천 시간을 계산합니다.</p>
+
+          <div id="resultBox"></div>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <p>MeetPick · 일정 조율 웹페이지</p>
+    </footer>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script type="text/python" src="logic.py"></script>
+</body>
+</html>
