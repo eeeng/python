@@ -1,42 +1,46 @@
 # MeetPick
 
-`app.py` 없이 실행하는 버전입니다.  
-VS Code Live Server로 `index.html`을 열면 바로 실행됩니다.
+Flask로 실행하는 일정 조율 웹사이트입니다.
 
 ## 실행 방법
 
-1. VS Code에서 이 폴더를 엽니다.
-2. `index.html`을 우클릭합니다.
-3. `Open with Live Server`를 누릅니다.
-4. 주소가 아래처럼 뜨면 정상입니다.
+터미널에서 아래 명령어를 입력합니다.
 
-```txt
-http://127.0.0.1:5500/index.html
+```bash
+python app.py
 ```
 
-또는
+브라우저에서 아래 주소로 접속합니다.
 
 ```txt
 http://127.0.0.1:5500
 ```
 
+## 주의
+
+VS Code Live Server도 5500번 포트를 사용할 수 있습니다.  
+이 프로젝트를 실행할 때는 Live Server를 꺼두는 것이 좋습니다.
+
 ## 파일 구조
 
 ```txt
-meetpick_5500_index_python_logic/
-├── index.html
-├── style.css
-├── logic.py
-└── README.md
+meetpick_flask_5500_final/
+├── app.py
+├── data.json
+├── README.md
+├── templates/
+│   └── index.html
+└── static/
+    ├── style.css
+    └── script.js
 ```
 
-## 역할
+## 기능
 
-- `index.html`: 화면 구조
-- `style.css`: 디자인
-- `logic.py`: 방 생성, 참여자 저장, 평균 계산, 공통 날짜 계산
-
-## 참고
-
-브라우저에서 Python을 실행하기 위해 Brython을 사용합니다.  
-처음 실행할 때 인터넷 연결이 필요할 수 있습니다.
+- 일정 조율 방 생성
+- 참여자 일정 저장
+- 참여자 삭제
+- 참여 현황 확인
+- 공통 날짜 계산
+- 평균 시간 계산
+- 추천 시간 출력
